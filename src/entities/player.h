@@ -2,6 +2,8 @@
 
 #include "../utilities.h"
 
+#include "raylib.h"
+
 namespace flappy
 {
 	struct Player

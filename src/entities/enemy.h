@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../utilities.h"
+#include "raylib.h"
 
 namespace flappy
 {
@@ -12,7 +12,7 @@ namespace flappy
 		bool isAlive;
 	};
 
-	void InitEnemy(Enemy& enemy);
-	void UpdateEnemy(Enemy& enemy);
-	void DrawEnemy(Enemy enemy);
+	void CreateEnemy();
+	void UpdateEnemy();
+	void DrawEnemy();
 }
