@@ -10,6 +10,7 @@ using namespace std;
 namespace flappy
 {
 	Player player;
+	GameStats gameStats;
 
 	void Init();
 	void Input();
@@ -42,6 +43,14 @@ namespace flappy
 
 	void Input()
 	{
+		switch ((SceneStatus)gameStats.gameStatus)
+		{
+		case SceneStatus::GAMEPLAY:
+			break;
+
+		default:
+			break;
+		}
 		InputPlayer(player);
 	}
 
@@ -54,6 +63,10 @@ namespace flappy
 
 	void Draw()
 	{
+		int auxPosX = 10;
+		int auxPosY = 10;
+		int auxFont = 10;
+
 		BeginDrawing();
 		ClearBackground(BLACK);
 
@@ -62,9 +75,13 @@ namespace flappy
 
 		if (player.playerGotHit)
 		{
-			DrawText("colision", 500, 500, 20, WHITE);
+			DrawText("colision",static_cast <int> (player.playerFigure.x), 
+				static_cast <int> (player.playerFigure.y - player.playerFigure.height/2), auxFont, WHITE);
+
 			player.playerGotHit = false;
 		}
+
+		DrawText("v0.1", auxPosX, auxPosY, auxFont, WHITE);
 
 		EndDrawing();
 	}
