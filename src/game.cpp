@@ -1,6 +1,11 @@
 #include "game.h"
 
+#include <iostream>
+
 #include "entities/player.h"
+#include "entities/enemy.h"
+
+using namespace std;
 
 namespace flappy
 {
@@ -43,6 +48,8 @@ namespace flappy
 	void Update()
 	{
 		UpdatePlayer(player);
+		UpdateEnemy();
+		CheckPlayerColision(player.playerHitbox, player.playerGotHit);
 	}
 
 	void Draw()
@@ -51,6 +58,13 @@ namespace flappy
 		ClearBackground(BLACK);
 
 		DrawPlayer(player);
+		DrawEnemy();
+
+		if (player.playerGotHit)
+		{
+			DrawText("colision", 500, 500, 20, WHITE);
+			player.playerGotHit = false;
+		}
 
 		EndDrawing();
 	}
