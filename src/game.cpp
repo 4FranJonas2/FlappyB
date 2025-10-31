@@ -1,7 +1,11 @@
 #include "game.h"
 
+#include "entities/player.h"
+
 namespace flappy
 {
+	Player player;
+
 	void Init();
 	void Input();
 	void Update();
@@ -27,18 +31,27 @@ namespace flappy
 		const int screenHeight = 768;
 
 		InitWindow(screenWidth, screenHeight, "Aracnoids");
+
+		InitPlayer(player);
 	}
 
 	void Input()
 	{
+		InputPlayer(player);
 	}
 
 	void Update()
 	{
+		UpdatePlayer(player);
 	}
 
 	void Draw()
 	{
-	}
+		BeginDrawing();
+		ClearBackground(BLACK);
 
+		DrawPlayer(player);
+
+		EndDrawing();
+	}
 }
