@@ -14,6 +14,7 @@ namespace flappy
 		bool isAlive;
 	};
 
+	void InitEnemy();
 	void CreateEnemy();
 	void UpdateEnemy();
 	void DrawEnemy();

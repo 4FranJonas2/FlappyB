@@ -13,6 +13,19 @@ namespace flappy
 
 	void CheckArenaLimits(int i);
 
+	void InitEnemy()
+	{
+		for (int i = 0; i < maxEnemys; i++)
+		{
+			enemy[i].enemyFigure.x = 0.0f;
+			enemy[i].enemyFigure.y = 0.0f;
+			enemy[i].enemyFigure.width = 50.0f;
+			enemy[i].enemyFigure.height = 600.0f;
+			enemy[i].isAlive = false;
+			enemy[i].speed = 200.0f;
+		}
+	}
+
 	void CreateEnemy()
 	{
 		float auxPosX = 50.0f;
@@ -80,7 +93,7 @@ namespace flappy
 	{
 		for (int i = 0; i < maxEnemys; i++)
 		{
-			if (enemy[i].isAlive 
+			if (enemy[i].isAlive
 				&& playerHitBox.pos.x + playerHitBox.rad >= enemy[i].enemyFigure.x
 				&& playerHitBox.pos.y + playerHitBox.rad >= enemy[i].enemyFigure.y
 				&& playerHitBox.pos.x - playerHitBox.rad <= enemy[i].enemyFigure.x + enemy[i].enemyFigure.width)
