@@ -39,26 +39,70 @@ namespace flappy
 		InitWindow(screenWidth, screenHeight, "Aracnoids");
 
 		InitPlayer(player);
+		InitEnemy();
+
 	}
 
 	void Input()
 	{
 		switch ((SceneStatus)gameStats.gameStatus)
 		{
+		case SceneStatus::GAMEMENU:
+			break;
+		case SceneStatus::GAMERULES:
+			break;
+		case SceneStatus::GAMECREDITS:
+			break;
+		case SceneStatus::FIRSTGAME:
+			break;
 		case SceneStatus::GAMEPLAY:
+			
+			InputPlayer(player);
+			break;
+		case SceneStatus::GAMEPAUSE:
+			break;
+		case SceneStatus::RESETGAME:
+			break;
+		case SceneStatus::GAMEEND:
+			break;
+		
+		default:
+			break;
+		}
+	}
+
+	void Update()
+	{
+		switch ((SceneStatus)gameStats.gameStatus)
+		{
+		case SceneStatus::GAMEMENU:
+			break;
+		case SceneStatus::GAMERULES:
+			break;
+		case SceneStatus::GAMECREDITS:
+			break;
+		case SceneStatus::FIRSTGAME:
+			break;
+		case SceneStatus::GAMEPLAY:
+
+			UpdatePlayer(player);
+			UpdateEnemy();
+			CheckPlayerColision(player.playerHitbox, player.playerGotHit);
+			break;
+		case SceneStatus::GAMEPAUSE:
+			break;
+		case SceneStatus::RESETGAME:
+
+			InitPlayer(player);
+			InitEnemy();
+			gameStats.gameStatus = SceneStatus::GAMEPLAY;
+			break;
+		case SceneStatus::GAMEEND:
 			break;
 
 		default:
 			break;
 		}
-		InputPlayer(player);
-	}
-
-	void Update()
-	{
-		UpdatePlayer(player);
-		UpdateEnemy();
-		CheckPlayerColision(player.playerHitbox, player.playerGotHit);
 	}
 
 	void Draw()
@@ -69,19 +113,43 @@ namespace flappy
 
 		BeginDrawing();
 		ClearBackground(BLACK);
+		DrawText("v0.1", auxPosX, auxPosY, auxFont, WHITE);
 
-		DrawPlayer(player);
-		DrawEnemy();
-
-		if (player.playerGotHit)
+		switch ((SceneStatus)gameStats.gameStatus)
 		{
-			DrawText("colision",static_cast <int> (player.playerFigure.x), 
-				static_cast <int> (player.playerFigure.y - player.playerFigure.height/2), auxFont, WHITE);
+		case SceneStatus::GAMEMENU:
+			break;
+		case SceneStatus::GAMERULES:
+			break;
+		case SceneStatus::GAMECREDITS:
+			break;
+		case SceneStatus::FIRSTGAME:
+			break;
+		case SceneStatus::GAMEPLAY:
 
-			player.playerGotHit = false;
+			DrawPlayer(player);
+			DrawEnemy();
+
+			if (player.playerGotHit)
+			{
+				DrawText("colision",static_cast <int> (player.playerFigure.x), 
+					static_cast <int> (player.playerFigure.y - player.playerFigure.height/2), auxFont, WHITE);
+
+				gameStats.gameStatus = SceneStatus::RESETGAME;
+			}
+			break;
+		case SceneStatus::GAMEPAUSE:
+			break;
+		case SceneStatus::RESETGAME:
+			break;
+		case SceneStatus::GAMEEND:
+			break;
+
+		default:
+			break;
 		}
 
-		DrawText("v0.1", auxPosX, auxPosY, auxFont, WHITE);
+
 
 		EndDrawing();
 	}
