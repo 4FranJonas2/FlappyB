@@ -82,7 +82,7 @@ namespace flappy
 		}
 		if (player.playerFigure.y + player.playerFigure.height >= GetScreenHeight())
 		{
-			player.playerFigure.y -= player.playerFigure.height;
+			player.playerGotHit = true;
 		}
 	}
 }
