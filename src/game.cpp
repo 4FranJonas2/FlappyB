@@ -4,6 +4,7 @@
 
 #include "entities/player.h"
 #include "entities/enemy.h"
+#include "entities/menu.h"
 
 using namespace std;
 
@@ -11,6 +12,7 @@ namespace flappy
 {
 	Player player;
 	GameStats gameStats;
+	MenuButtons buttons;
 
 	void Init();
 	void Input();
@@ -40,6 +42,7 @@ namespace flappy
 
 		InitPlayer(player);
 		InitEnemy();
+		InitButtons(buttons);
 
 	}
 
@@ -76,12 +79,18 @@ namespace flappy
 		switch ((SceneStatus)gameStats.gameStatus)
 		{
 		case SceneStatus::GAMEMENU:
+			UpdateSceneMenus(gameStats, buttons);
 			break;
 		case SceneStatus::GAMERULES:
+			UpdateSceneMenus(gameStats, buttons);
 			break;
 		case SceneStatus::GAMECREDITS:
+			UpdateSceneMenus(gameStats, buttons);
+
 			break;
 		case SceneStatus::FIRSTGAME:
+			UpdateSceneMenus(gameStats, buttons);
+
 			break;
 		case SceneStatus::GAMEPLAY:
 
@@ -94,14 +103,18 @@ namespace flappy
 			}
 			break;
 		case SceneStatus::GAMEPAUSE:
+			UpdateSceneMenus(gameStats, buttons);
+
 			break;
 		case SceneStatus::RESETGAME:
 
 			InitPlayer(player);
 			InitEnemy();
-			gameStats.gameStatus = SceneStatus::GAMEPLAY;
+			gameStats.gameStatus = SceneStatus::FIRSTGAME;
 			break;
 		case SceneStatus::GAMEEND:
+			UpdateSceneMenus(gameStats, buttons);
+
 			break;
 
 		default:
@@ -111,23 +124,25 @@ namespace flappy
 
 	void Draw()
 	{
-		int auxPosX = 10;
-		int auxPosY = 10;
-		int auxFont = 10;
-
 		BeginDrawing();
 		ClearBackground(BLACK);
-		DrawText("v0.1", auxPosX, auxPosY, auxFont, WHITE);
 
 		switch ((SceneStatus)gameStats.gameStatus)
 		{
 		case SceneStatus::GAMEMENU:
+			DrawMenuTypeScene(gameStats, buttons);
 			break;
 		case SceneStatus::GAMERULES:
+			DrawMenuTypeScene(gameStats, buttons);
+
 			break;
 		case SceneStatus::GAMECREDITS:
+			DrawMenuTypeScene(gameStats, buttons);
+
 			break;
 		case SceneStatus::FIRSTGAME:
+			DrawMenuTypeScene(gameStats, buttons);
+
 			break;
 		case SceneStatus::GAMEPLAY:
 
@@ -136,12 +151,16 @@ namespace flappy
 
 			break;
 		case SceneStatus::GAMEPAUSE:
+			DrawMenuTypeScene(gameStats, buttons);
+
 			break;
 		case SceneStatus::RESETGAME:
-				DrawText("colision",static_cast <int> (player.playerFigure.x), 
-					static_cast <int> (player.playerFigure.y - player.playerFigure.height/2), auxFont, WHITE);
+				/*DrawText("colision",static_cast <int> (player.playerFigure.x), 
+					static_cast <int> (player.playerFigure.y - player.playerFigure.height/2), auxFont, WHITE);*/
 			break;
 		case SceneStatus::GAMEEND:
+			DrawMenuTypeScene(gameStats, buttons);
+
 			break;
 
 		default:
