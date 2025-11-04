@@ -16,46 +16,41 @@ namespace flappy
 		player.playerHitbox.rad = 25.0f;
 
 		player.lives = 1;
-		player.speed = 1300.0f;
+		player.speed = 1000.0f;
 
 		player.moveUp = false;
-		player.moveDown = false;
 		player.playerGotHit = false;
 	}
 	void InputPlayer(Player& player)
 	{
-		if (IsKeyDown(KEY_W) && !player.moveDown)
+		if (IsKeyDown(KEY_W) )
 		{
 			player.moveUp = true;
 		}
-		if (IsKeyDown(KEY_S) && !player.moveUp)
-		{
-			player.moveDown = true;
-		}
+		
 		if (!IsKeyDown(KEY_W))
 		{
 			player.moveUp = false;
 		}
-		if (!IsKeyDown(KEY_S))
-		{
-			player.moveDown = false;
-		}
 	}
+
 	void UpdatePlayer(Player& player)
 	{
+		int gravity = 300;
+		float jumpForce = -800.0f;
+
 		if (player.moveUp)
 		{
-			player.playerFigure.y -= player.speed * GetFrameTime();
+			player.speed = -jumpForce * GetFrameTime();
+			player.playerFigure.y -= player.speed;
+
 			player.playerHitbox.pos.y = player.playerFigure.y;
 		}
-		if (player.moveDown)
+		if (!player.moveUp)
 		{
-			player.playerFigure.y += player.speed * GetFrameTime();
-			player.playerHitbox.pos.y = player.playerFigure.y;
-		}
-		else
-		{
-			player.playerFigure.y = player.playerFigure.y;
+			player.speed = gravity * GetFrameTime();
+
+			player.playerFigure.y += player.speed ;
 		}
 
 		CheckArenaCollision(player);

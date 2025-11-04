@@ -14,7 +14,6 @@ namespace flappy
 		float speed;
 
 		bool moveUp;
-		bool moveDown;
 		bool playerGotHit;
 	};
 
