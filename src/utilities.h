@@ -25,7 +25,7 @@ namespace flappy
 
 	struct GameStats
 	{
-		SceneStatus gameStatus = SceneStatus::GAMEPLAY;
+		SceneStatus gameStatus = SceneStatus::GAMEMENU;
 
 		int fontSize = 25;
 	};
