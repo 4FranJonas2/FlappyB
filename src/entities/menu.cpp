@@ -1,13 +1,18 @@
 #include "menu.h"
 
-namespace aracnoids
+namespace flappy
 {
 	Vector2 recSize = { 90.0f, 50.0f };
 	bool isOnButton = false;
 
 	bool IsMouseOverButton(Rectangle buttonRec);
-	int GetButtonState(Rectangle button, AudioManager audio);
-	void DrawButton(Texture2D sprite, Rectangle button, int state);
+	int GetButtonState(Rectangle button);
+	void DrawButton(Rectangle button, int state);
+
+	void DrawMainMenu(GameStats gameStats, MenuButtons buttons);
+	//void DrawRulesMenu(GameStats gameStats, MenuButtons buttons);
+	void DrawCreditsMenu(GameStats gameStats, MenuButtons buttons);
+	void DrawPause(GameStats gameStats, MenuButtons buttons);
 
 	bool IsMouseOverButton(Rectangle buttonRec)
 	{
@@ -37,7 +42,7 @@ namespace aracnoids
 		float goMenuButtonPosY = 660.0f;
 
 		buttons.playButtState = 0;
-		buttons.rulesButtState = 0;
+		//buttons.rulesButtState = 0;
 		buttons.creditsButtState = 0;
 		buttons.backButtState = 0;
 		buttons.backToMenuButtState = 0;
@@ -47,12 +52,12 @@ namespace aracnoids
 		float buttonHeight = 72.0f;
 
 		float playButtonPosy = 290.0f;
-		float rulesButtonPosy = 370.0f;
+		//float rulesButtonPosy = 370.0f;
 		float creditButtonPosy = 450.0f;
 
 		//posiciones de botones y tamanio de hitbox
 		buttons.playButton = { menuButtonsPosX,playButtonPosy,buttonWidth,buttonHeight };
-		buttons.rulesButton = { menuButtonsPosX,rulesButtonPosy,buttonWidth,buttonHeight };
+		//buttons.rulesButton = { menuButtonsPosX,rulesButtonPosy,buttonWidth,buttonHeight };
 		buttons.creditsButton = { menuButtonsPosX,creditButtonPosy,buttonWidth,buttonHeight };
 
 		buttons.backButton = { backButtonPosX,backButtonPosY,buttonWidth,buttonHeight };
@@ -60,80 +65,89 @@ namespace aracnoids
 		buttons.resetButton = { resetButtonPosX,resetButtonPosY,buttonWidth,buttonHeight };
 		buttons.backMenuButton = { goMenuButtonPosX,goMenuButtonPosY,buttonWidth,buttonHeight };
 	}
-	void UpdateSceneMenus(GameStats& gameStats, MenuButtons& buttons, AudioManager audio)
+	void UpdateSceneMenus(GameStats& gameStats, MenuButtons& buttons)
 	{
 		switch ((SceneStatus)gameStats.gameStatus)
 		{
 		case SceneStatus::GAMEMENU:
 
-			buttons.playButtState = GetButtonState(buttons.playButton, audio);
-			buttons.rulesButtState = GetButtonState(buttons.rulesButton, audio);
-			buttons.creditsButtState = GetButtonState(buttons.creditsButton, audio);
+			buttons.playButtState = GetButtonState(buttons.playButton);
+			//buttons.rulesButtState = GetButtonState(buttons.rulesButton);
+			buttons.creditsButtState = GetButtonState(buttons.creditsButton);
 
-			if (!IsMouseOverButton(buttons.playButton) && !IsMouseOverButton(buttons.rulesButton) && !IsMouseOverButton(buttons.creditsButton))
+			if (!IsMouseOverButton(buttons.playButton)
+				/*&& !IsMouseOverButton(buttons.rulesButton)*/
+				&& !IsMouseOverButton(buttons.creditsButton))
 			{
 				isOnButton = false;
 			}
-			if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT) && IsMouseOverButton(buttons.playButton))
+			if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)
+				&& IsMouseOverButton(buttons.playButton))
 			{
-				PlaySFX(audio.clickSound);
+				//PlaySFX(audio.clickSound);
 				gameStats.gameStatus = SceneStatus::RESETGAME;
 			}
-			else if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT) && IsMouseOverButton(buttons.rulesButton))
+			//else if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)
+			//	&& IsMouseOverButton(buttons.rulesButton))
+			//{
+			//	//PlaySFX(audio.clickSound);
+			//	gameStats.gameStatus = SceneStatus::GAMERULES;
+			//}
+			else if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)
+				&& IsMouseOverButton(buttons.creditsButton))
 			{
-				PlaySFX(audio.clickSound);
-				gameStats.gameStatus = SceneStatus::GAMERULES;
-			}
-			else if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT) && IsMouseOverButton(buttons.creditsButton))
-			{
-				PlaySFX(audio.clickSound);
+				//PlaySFX(audio.clickSound);
 				gameStats.gameStatus = SceneStatus::GAMECREDITS;
 			}
 			break;
 
-		case SceneStatus::GAMERULES:
+			//case SceneStatus::GAMERULES:
 
-			buttons.backButtState = GetButtonState(buttons.backButton, audio);
+			//	buttons.backButtState = GetButtonState(buttons.backButton);
 
-			if (!IsMouseOverButton(buttons.backButton))
-				isOnButton = false;
+			//	if (!IsMouseOverButton(buttons.backButton))
+			//		isOnButton = false;
 
-			if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT) && IsMouseOverButton(buttons.backButton))
-			{
-				PlaySFX(audio.clickSound);
-				gameStats.gameStatus = SceneStatus::GAMEMENU;
-			}
-			break;
+			//	if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)
+			//		&& IsMouseOverButton(buttons.backButton))
+			//	{
+			//		//PlaySFX(audio.clickSound);
+			//		gameStats.gameStatus = SceneStatus::GAMEMENU;
+			//	}
+			//	break;
 
 		case SceneStatus::GAMECREDITS:
 
-			buttons.backButtState = GetButtonState(buttons.backButton, audio);
+			buttons.backButtState = GetButtonState(buttons.backButton);
 
 			if (!IsMouseOverButton(buttons.backButton))
 				isOnButton = false;
 
-			if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT) && IsMouseOverButton(buttons.backButton))
+			if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)
+				&& IsMouseOverButton(buttons.backButton))
 			{
-				PlaySFX(audio.clickSound);
+				//PlaySFX(audio.clickSound);
 				gameStats.gameStatus = SceneStatus::GAMEMENU;
 			}
 			break;
 
 		case SceneStatus::FIRSTGAME:
 
-			buttons.backToMenuButtState = GetButtonState(buttons.backMenuButton, audio);
+			buttons.backToMenuButtState = GetButtonState(buttons.backMenuButton);
 
 			if (!IsMouseOverButton(buttons.backMenuButton))
 				isOnButton = false;
 
-			if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT) && IsMouseOverButton(buttons.backMenuButton))
+			if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)
+				&& IsMouseOverButton(buttons.backMenuButton))
 			{
-				PlaySFX(audio.clickSound);
+				//PlaySFX(audio.clickSound);
 				gameStats.gameStatus = SceneStatus::GAMEMENU;
 			}
-			if (!IsKeyPressed(KEY_SPACE) && IsKeyReleased(KEY_SPACE))
+			if (!IsKeyPressed(KEY_SPACE)
+				&& IsKeyReleased(KEY_SPACE))
 			{
-				PlaySFX(audio.clickSound);
+				//PlaySFX(audio.clickSound);
 				gameStats.gameStatus = SceneStatus::GAMEPLAY;
 			}
 			break;
@@ -142,60 +156,114 @@ namespace aracnoids
 
 			if (!IsKeyPressed(KEY_SPACE) && IsKeyReleased(KEY_SPACE))
 			{
-				PlaySFX(audio.clickSound);
+				//PlaySFX(audio.clickSound);
 				gameStats.gameStatus = SceneStatus::GAMEPAUSE;
 			}
 			break;
 
 		case SceneStatus::GAMEPAUSE:
 
-			buttons.backToMenuButtState = GetButtonState(buttons.backMenuButton, audio);
-			buttons.resetButtState = GetButtonState(buttons.resetButton, audio);
+			buttons.backToMenuButtState = GetButtonState(buttons.backMenuButton);
+			buttons.resetButtState = GetButtonState(buttons.resetButton);
 
 			if (!IsMouseOverButton(buttons.backMenuButton) && !IsMouseOverButton(buttons.resetButton))
 				isOnButton = false;
 
 			if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT) && IsMouseOverButton(buttons.backMenuButton))
 			{
-				PlaySFX(audio.clickSound);
+				//PlaySFX(audio.clickSound);
 				gameStats.gameStatus = SceneStatus::GAMEMENU;
 			}
 			if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT) && IsMouseOverButton(buttons.resetButton))
 			{
-				PlaySFX(audio.clickSound);
+				//PlaySFX(audio.clickSound);
 				gameStats.gameStatus = SceneStatus::RESETGAME;
 			}
 			if (!IsKeyPressed(KEY_SPACE) && IsKeyReleased(KEY_SPACE))
 			{
-				PlaySFX(audio.clickSound);
+				//PlaySFX(audio.clickSound);
 				gameStats.gameStatus = SceneStatus::GAMEPLAY;
 			}
 			break;
 
 		case SceneStatus::GAMEEND:
 
-			buttons.backToMenuButtState = GetButtonState(buttons.backMenuButton, audio);
-			buttons.resetButtState = GetButtonState(buttons.resetButton, audio);
+			buttons.backToMenuButtState = GetButtonState(buttons.backMenuButton);
+			buttons.resetButtState = GetButtonState(buttons.resetButton);
 
-			if (!IsMouseOverButton(buttons.backMenuButton) && !IsMouseOverButton(buttons.resetButton))
+			if (!IsMouseOverButton(buttons.backMenuButton)
+				&& !IsMouseOverButton(buttons.resetButton))
 				isOnButton = false;
 
-			if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT) && IsMouseOverButton(buttons.backMenuButton))
+			if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)
+				&& IsMouseOverButton(buttons.backMenuButton))
 			{
-				PlaySFX(audio.clickSound);
+				//PlaySFX(audio.clickSound);
 				isOnButton = false;
 				gameStats.gameStatus = SceneStatus::GAMEMENU;
 			}
-			if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT) && IsMouseOverButton(buttons.resetButton))
+			if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)
+				&& IsMouseOverButton(buttons.resetButton))
 			{
-				PlaySFX(audio.clickSound);
+				//PlaySFX(audio.clickSound);
 				gameStats.gameStatus = SceneStatus::RESETGAME;
 			}
 			if (!IsKeyPressed(KEY_SPACE) && IsKeyReleased(KEY_SPACE))
 			{
-				PlaySFX(audio.clickSound);
+				//PlaySFX(audio.clickSound);
 				gameStats.gameStatus = SceneStatus::GAMEPLAY;
 			}
+			break;
+
+		default:
+			break;
+		}
+	}
+	void DrawMenuTypeScene(GameStats gameStats, MenuButtons buttons)
+	{
+		int auxPosX = 10;
+		int auxPosY = 10;
+		int auxFont = 10;
+
+		switch ((SceneStatus)gameStats.gameStatus)
+		{
+		case SceneStatus::GAMEMENU:
+
+			DrawText("v0.1", auxPosX, auxPosY, auxFont, WHITE);
+			DrawMainMenu(gameStats, buttons);
+
+			break;
+
+			//case SceneStatus::GAMERULES:
+			//	break;
+
+		case SceneStatus::GAMECREDITS:
+
+			DrawCreditsMenu(gameStats, buttons);
+			break;
+
+		case SceneStatus::FIRSTGAME:
+
+			DrawPause(gameStats, buttons);
+			break;
+
+		case SceneStatus::GAMEPLAY:
+
+			if (!IsKeyPressed(KEY_W) && IsKeyReleased(KEY_W))
+			{
+				//PlaySFX(audio.clickSound);
+				gameStats.gameStatus = SceneStatus::GAMEPAUSE;
+			}
+			break;
+
+		case SceneStatus::GAMEPAUSE:
+
+			DrawPause(gameStats, buttons);
+			break;
+
+		case SceneStatus::GAMEEND:
+
+			DrawPause(gameStats, buttons);
 			break;
 
 		default:
@@ -212,8 +280,8 @@ namespace aracnoids
 			int LineText2PosX = GetScreenWidth() / 2 - 30;
 			int LineText2PosY = 280;
 
-			int LineText3PosX = GetScreenWidth() / 2 - 35;
-			int LineText3PosY = 357;
+			/*int LineText3PosX = GetScreenWidth() / 2 - 35;
+			int LineText3PosY = 357;*/
 
 			int LineText4PosX = GetScreenWidth() / 2 - 47;
 			int LineText4PosY = 437;
@@ -225,25 +293,27 @@ namespace aracnoids
 			int defaultFontSize = 20;
 			int exitFontSize = 15;
 
-			string titleText = "ARACNOIDS";
+			string titleText = "FLAPPY";
 			string playText = "Play";
-			string rulesext = "Rules";
+			//string rulesext = "Rules";
 			string creditsText = "Credits";
 			string exitText = "Press ESC at ANY momment to CLOSE the game";
 
-			DrawButton(buttons.buttonSprite, buttons.playButton, buttons.playButtState);
-			DrawButton(buttons.buttonSprite, buttons.rulesButton, buttons.rulesButtState);
-			DrawButton(buttons.buttonSprite, buttons.creditsButton, buttons.creditsButtState);
+			Color textColor = BLACK;
 
-			DrawText("ARACNOIDS", lineText1PosX, LineText1PosY, titleFontSize, WHITE);
-			DrawText("Play", LineText2PosX, LineText2PosY, defaultFontSize, WHITE);
-			DrawText("Rules", LineText3PosX, LineText3PosY, defaultFontSize, WHITE);
-			DrawText("Credits", LineText4PosX, LineText4PosY, defaultFontSize, WHITE);
+			DrawButton(buttons.playButton, buttons.playButtState);
+			//DrawButton(buttons.rulesButton, buttons.rulesButtState);
+			DrawButton(buttons.creditsButton, buttons.creditsButtState);
 
-			DrawText("Press ESC at ANY momment to CLOSE the game", LineText5PosX, LineText5PosY, exitFontSize, WHITE);
+			DrawText("ARACNOIDS", lineText1PosX, LineText1PosY, titleFontSize, textColor);
+			DrawText("Play", LineText2PosX, LineText2PosY, defaultFontSize, textColor);
+			//DrawText("Rules", LineText3PosX, LineText3PosY, defaultFontSize, textColor);
+			DrawText("Credits", LineText4PosX, LineText4PosY, defaultFontSize, textColor);
+
+			DrawText("Press ESC at ANY momment to CLOSE the game", LineText5PosX, LineText5PosY, exitFontSize, textColor);
 		}
 	}
-	void DrawRulesMenu(GameStats gameStats, MenuButtons buttons)
+	/*void DrawRulesMenu(GameStats gameStats, MenuButtons buttons)
 	{
 		if (gameStats.gameStatus == SceneStatus::GAMERULES)
 		{
@@ -292,29 +362,31 @@ namespace aracnoids
 			string pauseText = "-Use spacebar to pause game at any moment.";
 			string exitText = "Back";
 
-			DrawButton(buttons.buttonSprite, buttons.backButton, buttons.backButtState);
+			Color textColor = BLACK;
 
-			DrawText("RULES", LineText1PosX, LineText1PosY, titleFontSize, WHITE);
+			DrawButton(buttons.backButton, buttons.backButtState);
+
+			DrawText("RULES", LineText1PosX, LineText1PosY, titleFontSize, textColor);
 
 			DrawText("-To MOVE use LEFT Mouse Button and to SHOT use RIGHT mouse buton",
-				LineText2PosX, LineText2PosY, defaultFontSize, WHITE);
+				LineText2PosX, LineText2PosY, defaultFontSize, textColor);
 			DrawText("-In normal mode Destroy all Neufars to win.",
-				LineText3PosX, LineText3PosY, defaultFontSize, WHITE);
+				LineText3PosX, LineText3PosY, defaultFontSize, textColor);
 			DrawText("-In endless mode survive as long as you can.",
-				LineText4PosX, LineText4PosY, defaultFontSize, WHITE);
+				LineText4PosX, LineText4PosY, defaultFontSize, textColor);
 			DrawText("-You will have 3 lives. If you get touch by a neufar, you lose 1 life.",
-				LineText5PosX, LineText5PosY, defaultFontSize, WHITE);
+				LineText5PosX, LineText5PosY, defaultFontSize, textColor);
 			DrawText("TURTLE dont care about anything. But take care, they can change neufar direction !!",
-				LineText6PosX, LineText6PosY, defaultFontSize, WHITE);
+				LineText6PosX, LineText6PosY, defaultFontSize, textColor);
 			DrawText("FROGS loves water but we cant explain why their smell slows you down if they touch you.",
-				LineText7PosX, LineText7PosY, defaultFontSize, WHITE);
+				LineText7PosX, LineText7PosY, defaultFontSize, textColor);
 			DrawText("The PINK PETALS can reestore 1 life, if you are not full healt.",
-				LineText8PosX, LineText8PosY, defaultFontSize, WHITE);
+				LineText8PosX, LineText8PosY, defaultFontSize, textColor);
 			DrawText("-Use spacebar to pause game at any moment.",
-				LineText9PosX, LineText9PosY, defaultFontSize, WHITE);
-			DrawText("Back", LineText0PosX, LineText0PosY, exitFontSize, WHITE);
+				LineText9PosX, LineText9PosY, defaultFontSize, textColor);
+			DrawText("Back", LineText0PosX, LineText0PosY, exitFontSize, textColor);
 		}
-	}
+	}*/
 	void DrawCreditsMenu(GameStats gameStats, MenuButtons buttons)
 	{
 		if (gameStats.gameStatus == SceneStatus::GAMECREDITS)
@@ -345,18 +417,20 @@ namespace aracnoids
 			string creditText2 = "-Special thanks to, Stefano Juan Cvitanich and Sergio Baretto";
 			string exitText = "Back";
 
-			DrawButton(buttons.buttonSprite, buttons.backButton, buttons.backButtState);
+			Color textColor = BLACK;
 
-			DrawText("CREDITS", LineText1PosX, LineText1PosY, titleFontSize, WHITE);
+			DrawButton(buttons.backButton, buttons.backButtState);
+
+			DrawText("CREDITS", LineText1PosX, LineText1PosY, titleFontSize, textColor);
 
 			DrawText("-Game made by me Francisco Jonas: https://4franjonas2.itch.io/.",
-				LineText2PosX, LineText2PosY, defaultFontSize, WHITE);
+				LineText2PosX, LineText2PosY, defaultFontSize, textColor);
 			DrawText("-Game assests made by Guadalupe Ferreira Le Roi",
-				LineText3PosX, LineText3PosY, defaultFontSize, WHITE);
+				LineText3PosX, LineText3PosY, defaultFontSize, textColor);
 			DrawText("-Special thanks to, Stefano Juan Cvitanich and Sergio Baretto",
-				LineText4PosX, LineText4PosY, defaultFontSize, WHITE);
+				LineText4PosX, LineText4PosY, defaultFontSize, textColor);
 
-			DrawText("Back", LineText0PosX, LineText0PosY, exitFontSize, WHITE);
+			DrawText("Back", LineText0PosX, LineText0PosY, exitFontSize, textColor);
 		}
 	}
 	void DrawPause(GameStats gameStats, MenuButtons buttons)
@@ -394,42 +468,44 @@ namespace aracnoids
 			string menuText = "Go MENU";
 			string endText = "GAME OVER";
 
-			DrawText("Press SPACEBAR key", LineText2PosX, LineText2PosY, defaultFontSize, WHITE);
+			Color textColor = BLACK;
+
+			DrawText("Press SPACEBAR key", LineText2PosX, LineText2PosY, defaultFontSize, textColor);
 
 			if (gameStats.gameStatus == SceneStatus::GAMEPAUSE)
 			{
-				DrawButton(buttons.buttonSprite, buttons.resetButton, buttons.resetButtState);
-				DrawButton(buttons.buttonSprite, buttons.backMenuButton, buttons.backToMenuButtState);
+				DrawButton(buttons.resetButton, buttons.resetButtState);
+				DrawButton(buttons.backMenuButton, buttons.backToMenuButtState);
 
-				DrawText("GAME PAUSE", LineText1PosX, LineText1PosY, titleFontSize, WHITE);
-				DrawText("To RESUME", LineText3PosX, LineText3PosY, defaultFontSize, WHITE);
-				DrawText("RESET", LineText4PosX, LineText4PosY, defaultFontSize, WHITE);
-				DrawText("Go MENU", LineText5PosX, LineText5PosY, defaultFontSize, WHITE);
+				DrawText("GAME PAUSE", LineText1PosX, LineText1PosY, titleFontSize, textColor);
+				DrawText("To RESUME", LineText3PosX, LineText3PosY, defaultFontSize, textColor);
+				DrawText("RESET", LineText4PosX, LineText4PosY, defaultFontSize, textColor);
+				DrawText("Go MENU", LineText5PosX, LineText5PosY, defaultFontSize, textColor);
 			}
 
 			if (gameStats.gameStatus == SceneStatus::FIRSTGAME)
 			{
-				DrawButton(buttons.buttonSprite, buttons.backMenuButton, buttons.backToMenuButtState);
+				DrawButton(buttons.backMenuButton, buttons.backToMenuButtState);
 
-				DrawText("GAME PAUSE", LineText1PosX, LineText1PosY, titleFontSize, WHITE);
+				DrawText("GAME PAUSE", LineText1PosX, LineText1PosY, titleFontSize, textColor);
 
-				DrawText("To START Game", LineText6PosX, LineText6PosY, defaultFontSize, WHITE);
-				DrawText("Go MENU", LineText5PosX, LineText5PosY, defaultFontSize, WHITE);
+				DrawText("To START Game", LineText6PosX, LineText6PosY, defaultFontSize, textColor);
+				DrawText("Go MENU", LineText5PosX, LineText5PosY, defaultFontSize, textColor);
 			}
 
 			if (gameStats.gameStatus == SceneStatus::GAMEEND)
 			{
-				DrawButton(buttons.buttonSprite, buttons.resetButton, buttons.resetButtState);
-				DrawButton(buttons.buttonSprite, buttons.backMenuButton, buttons.backToMenuButtState);
+				DrawButton(buttons.resetButton, buttons.resetButtState);
+				DrawButton(buttons.backMenuButton, buttons.backToMenuButtState);
 
-				DrawText("GAME OVER", LineText1PosX, LineText1PosY, titleFontSize, WHITE);
-				DrawText("RESET", LineText4PosX, LineText4PosY, defaultFontSize, WHITE);
-				DrawText("Go MENU", LineText5PosX, LineText5PosY, defaultFontSize, WHITE);
+				DrawText("GAME OVER", LineText1PosX, LineText1PosY, titleFontSize, textColor);
+				DrawText("RESET", LineText4PosX, LineText4PosY, defaultFontSize, textColor);
+				DrawText("Go MENU", LineText5PosX, LineText5PosY, defaultFontSize, textColor);
 			}
 		}
 	}
 
-	int GetButtonState(Rectangle button, AudioManager audio)
+	int GetButtonState(Rectangle button)
 	{
 		Vector2 mouse = GetMousePosition();
 
@@ -443,7 +519,7 @@ namespace aracnoids
 			{
 				if (!isOnButton)
 				{
-					PlaySFX(audio.overSound);
+					//PlaySFX(audio.overSound);
 					isOnButton = true;
 				}
 				return 1;
@@ -451,12 +527,12 @@ namespace aracnoids
 		}
 		return 0;
 	}
-	void DrawButton(Texture2D sprite, Rectangle button, int state)
+	void DrawButton(Rectangle button, int state)
 	{
 		// dibujado de sprite y escalado
-		float  scale = 2.5;
+		/*float  scale = 2.5;
 		float frameWidth = static_cast<float>(sprite.width) / 3.0f;
-		float frameHeight = static_cast<float>(sprite.height);
+		float frameHeight = static_cast<float>(spriteheight);
 
 		Rectangle spriteRec = { state * frameWidth, 0, frameWidth,frameHeight };
 		Vector2 position = { button.x,button.y };
@@ -464,6 +540,13 @@ namespace aracnoids
 		Rectangle destRec = { button.x,button.y,frameWidth * scale,frameHeight * scale };
 		Vector2 origin = { destRec.width / 2, destRec.height / 2 };
 
-		DrawTexturePro(sprite, spriteRec, destRec, origin, 0.0, WHITE);
+		DrawTexturePro(sprite, spriteRec, destRec, origin, 0.0, WHITE);*/
+
+		if (state == 1)
+		{
+			DrawRectangleRec(button, LIGHTGRAY);
+		}
+		else
+			DrawRectangleRec(button, WHITE);
 	}
 }
