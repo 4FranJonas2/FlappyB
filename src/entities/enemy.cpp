@@ -112,6 +112,14 @@ namespace flappy
 			{
 				isHit = true;
 			}
+
+			else if (enemy[i].isAlive
+				&& playerHitBox.pos.x + playerHitBox.rad >= enemy[i].enemyFigureUp.x
+				&& playerHitBox.pos.y + playerHitBox.rad <= enemy[i].enemyFigureUp.y + enemy[i].enemyFigureUp.height
+				&& playerHitBox.pos.x - playerHitBox.rad <= enemy[i].enemyFigureUp.x + enemy[i].enemyFigureUp.width)
+			{
+				isHit = true;
+			}
 		}
 	}
 }
