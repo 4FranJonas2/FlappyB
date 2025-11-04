@@ -17,10 +17,16 @@ namespace flappy
 	{
 		for (int i = 0; i < maxEnemys; i++)
 		{
-			enemy[i].enemyFigure.x = 0.0f;
-			enemy[i].enemyFigure.y = 0.0f;
-			enemy[i].enemyFigure.width = 50.0f;
-			enemy[i].enemyFigure.height = 600.0f;
+			enemy[i].enemyFigureDown.x = 0.0f;
+			enemy[i].enemyFigureDown.y = 0.0f;
+			enemy[i].enemyFigureDown.width = 50.0f;
+			enemy[i].enemyFigureDown.height = 600.0f;
+
+			enemy[i].enemyFigureUp.x = 0.0f;
+			enemy[i].enemyFigureUp.y = 0.0f;
+			enemy[i].enemyFigureUp.width = 50.0f;
+			enemy[i].enemyFigureUp.height = 600.0f;
+			
 			enemy[i].isAlive = false;
 			enemy[i].speed = 200.0f;
 		}
@@ -31,19 +37,19 @@ namespace flappy
 		float auxPosX = 50.0f;
 		int minRangeYPos = 200;
 		int maxRangeYPos = 700;
+		int minEmptySpace = 170;
 
 		for (int i = 0; i < maxEnemys; i++)
 		{
 			if (!enemy[i].isAlive)
 			{
-				enemy[i].enemyFigure.x = GetScreenWidth() + auxPosX;
-				enemy[i].enemyFigure.y = static_cast<float>(GetRandomValue(minRangeYPos, maxRangeYPos));
-				enemy[i].enemyFigure.width = 50.0f;
-				enemy[i].enemyFigure.height = 600.0f;
+				enemy[i].enemyFigureDown.x = GetScreenWidth() + auxPosX;
+				enemy[i].enemyFigureDown.y = static_cast<float>(GetRandomValue(minRangeYPos, maxRangeYPos));
+				
+				enemy[i].enemyFigureUp.x = enemy[i].enemyFigureDown.x;
+				enemy[i].enemyFigureUp.y = (enemy[i].enemyFigureDown.y - enemy[i].enemyFigureUp.height - minEmptySpace);
 
 				enemy[i].isAlive = true;
-				enemy[i].speed = 200.0f;
-
 				break;
 			}
 		}
@@ -62,7 +68,8 @@ namespace flappy
 		{
 			if (enemy[i].isAlive)
 			{
-				enemy[i].enemyFigure.x -= enemy[i].speed * GetFrameTime();
+				enemy[i].enemyFigureDown.x -= enemy[i].speed * GetFrameTime();
+				enemy[i].enemyFigureUp.x = enemy[i].enemyFigureDown.x;
 				CheckArenaLimits(i);
 			}
 		}
@@ -73,17 +80,22 @@ namespace flappy
 		{
 			if (enemy[i].isAlive)
 			{
-				DrawRectangle(static_cast <int>(enemy[i].enemyFigure.x),
-					static_cast <int>(enemy[i].enemyFigure.y),
-					static_cast <int>(enemy[i].enemyFigure.width),
-					static_cast <int>(enemy[i].enemyFigure.height), RED);
+				DrawRectangle(static_cast <int>(enemy[i].enemyFigureDown.x),
+					static_cast <int>(enemy[i].enemyFigureDown.y),
+					static_cast <int>(enemy[i].enemyFigureDown.width),
+					static_cast <int>(enemy[i].enemyFigureDown.height), RED);
+
+				DrawRectangle(static_cast <int>(enemy[i].enemyFigureUp.x),
+					static_cast <int>(enemy[i].enemyFigureUp.y),
+					static_cast <int>(enemy[i].enemyFigureUp.width),
+					static_cast <int>(enemy[i].enemyFigureUp.height), RED);
 			}
 		}
 	}
 
 	void CheckArenaLimits(int i)
 	{
-		if (enemy[i].isAlive && enemy[i].enemyFigure.x < 0.0f - enemy[i].enemyFigure.width)
+		if (enemy[i].isAlive && enemy[i].enemyFigureDown.x < 0.0f - enemy[i].enemyFigureDown.width)
 		{
 			enemy[i].isAlive = false;
 		}
@@ -94,9 +106,9 @@ namespace flappy
 		for (int i = 0; i < maxEnemys; i++)
 		{
 			if (enemy[i].isAlive
-				&& playerHitBox.pos.x + playerHitBox.rad >= enemy[i].enemyFigure.x
-				&& playerHitBox.pos.y + playerHitBox.rad >= enemy[i].enemyFigure.y
-				&& playerHitBox.pos.x - playerHitBox.rad <= enemy[i].enemyFigure.x + enemy[i].enemyFigure.width)
+				&& playerHitBox.pos.x + playerHitBox.rad >= enemy[i].enemyFigureDown.x
+				&& playerHitBox.pos.y + playerHitBox.rad >= enemy[i].enemyFigureDown.y
+				&& playerHitBox.pos.x - playerHitBox.rad <= enemy[i].enemyFigureDown.x + enemy[i].enemyFigureDown.width)
 			{
 				isHit = true;
 			}

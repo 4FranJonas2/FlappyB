@@ -8,7 +8,8 @@ namespace flappy
 {
 	struct Enemy
 	{
-		Rectangle enemyFigure;
+		Rectangle enemyFigureDown;
+		Rectangle enemyFigureUp;
 		float speed;
 
 		bool isAlive;
