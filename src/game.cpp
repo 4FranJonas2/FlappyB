@@ -88,6 +88,10 @@ namespace flappy
 			UpdatePlayer(player);
 			UpdateEnemy();
 			CheckPlayerColision(player.playerHitbox, player.playerGotHit);
+			if (player.playerGotHit)
+			{
+				gameStats.gameStatus = SceneStatus::RESETGAME;
+			}
 			break;
 		case SceneStatus::GAMEPAUSE:
 			break;
@@ -130,17 +134,12 @@ namespace flappy
 			DrawPlayer(player);
 			DrawEnemy();
 
-			if (player.playerGotHit)
-			{
-				DrawText("colision",static_cast <int> (player.playerFigure.x), 
-					static_cast <int> (player.playerFigure.y - player.playerFigure.height/2), auxFont, WHITE);
-
-				gameStats.gameStatus = SceneStatus::RESETGAME;
-			}
 			break;
 		case SceneStatus::GAMEPAUSE:
 			break;
 		case SceneStatus::RESETGAME:
+				DrawText("colision",static_cast <int> (player.playerFigure.x), 
+					static_cast <int> (player.playerFigure.y - player.playerFigure.height/2), auxFont, WHITE);
 			break;
 		case SceneStatus::GAMEEND:
 			break;
