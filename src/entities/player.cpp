@@ -6,14 +6,14 @@ namespace flappy
 
 	void InitPlayer(Player& player)
 	{
-		player.playerFigure.x = 400.0f;
-		player.playerFigure.y = 500.0f;
+		player.playerFigure.x = 200.0f;
+		player.playerFigure.y = 300.0f;
 		player.playerFigure.width = 30.0f;
 		player.playerFigure.height = 40.0f;
 
-		player.playerHitbox.pos.x = 400.0f;
-		player.playerHitbox.pos.y = 500.0f;
 		player.playerHitbox.rad = 25.0f;
+		player.playerHitbox.pos.x = 200.0f + player.playerFigure.width/2;
+		player.playerHitbox.pos.y = 300.0f + player.playerFigure.height/2;
 
 		player.lives = 1;
 		player.speed = 1000.0f;
@@ -23,11 +23,11 @@ namespace flappy
 	}
 	void InputPlayer(Player& player)
 	{
-		if (IsKeyDown(KEY_W) )
+		if (IsKeyDown(KEY_W))
 		{
 			player.moveUp = true;
 		}
-		
+
 		if (!IsKeyDown(KEY_W))
 		{
 			player.moveUp = false;
@@ -50,7 +50,7 @@ namespace flappy
 		{
 			player.speed = gravity * GetFrameTime();
 
-			player.playerFigure.y += player.speed ;
+			player.playerFigure.y += player.speed;
 		}
 
 		CheckArenaCollision(player);
