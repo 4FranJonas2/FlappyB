@@ -43,7 +43,6 @@ namespace flappy
 		InitPlayer(player);
 		InitEnemy();
 		InitButtons(buttons);
-
 	}
 
 	void Input()
@@ -89,6 +88,7 @@ namespace flappy
 
 			break;
 		case SceneStatus::FIRSTGAME:
+
 			UpdateSceneMenus(gameStats, buttons);
 
 			break;
@@ -96,6 +96,7 @@ namespace flappy
 
 			UpdatePlayer(player);
 			UpdateEnemy();
+			UpdateSceneMenus(gameStats, buttons);
 			CheckPlayerColision(player.playerHitbox, player.playerGotHit);
 			if (player.playerGotHit)
 			{
@@ -103,6 +104,7 @@ namespace flappy
 			}
 			break;
 		case SceneStatus::GAMEPAUSE:
+
 			UpdateSceneMenus(gameStats, buttons);
 
 			break;
@@ -113,6 +115,7 @@ namespace flappy
 			gameStats.gameStatus = SceneStatus::FIRSTGAME;
 			break;
 		case SceneStatus::GAMEEND:
+
 			UpdateSceneMenus(gameStats, buttons);
 
 			break;
@@ -141,6 +144,7 @@ namespace flappy
 
 			break;
 		case SceneStatus::FIRSTGAME:
+			DrawPlayer(player);
 			DrawMenuTypeScene(gameStats, buttons);
 
 			break;
@@ -151,6 +155,8 @@ namespace flappy
 
 			break;
 		case SceneStatus::GAMEPAUSE:
+			DrawPlayer(player);
+			DrawEnemy();
 			DrawMenuTypeScene(gameStats, buttons);
 
 			break;
@@ -159,6 +165,8 @@ namespace flappy
 					static_cast <int> (player.playerFigure.y - player.playerFigure.height/2), auxFont, WHITE);*/
 			break;
 		case SceneStatus::GAMEEND:
+			DrawPlayer(player);
+			DrawEnemy();
 			DrawMenuTypeScene(gameStats, buttons);
 
 			break;
