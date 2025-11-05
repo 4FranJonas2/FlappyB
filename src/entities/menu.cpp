@@ -157,7 +157,7 @@ namespace flappy
 			if (!IsKeyPressed(KEY_SPACE) && IsKeyReleased(KEY_SPACE))
 			{
 				//PlaySFX(audio.clickSound);
-				gameStats.gameStatus = SceneStatus::GAMEPAUSE;
+ 				gameStats.gameStatus = SceneStatus::GAMEPAUSE;
 			}
 			break;
 
@@ -208,11 +208,11 @@ namespace flappy
 				//PlaySFX(audio.clickSound);
 				gameStats.gameStatus = SceneStatus::RESETGAME;
 			}
-			if (!IsKeyPressed(KEY_SPACE) && IsKeyReleased(KEY_SPACE))
-			{
-				//PlaySFX(audio.clickSound);
-				gameStats.gameStatus = SceneStatus::GAMEPLAY;
-			}
+			//if (!IsKeyPressed(KEY_SPACE) && IsKeyReleased(KEY_SPACE))
+			//{
+			//	//PlaySFX(audio.clickSound);
+			//	gameStats.gameStatus = SceneStatus::GAMEPLAY;
+			//}
 			break;
 
 		default:
@@ -229,7 +229,7 @@ namespace flappy
 		{
 		case SceneStatus::GAMEMENU:
 
-			DrawText("v0.1", auxPosX, auxPosY, auxFont, WHITE);
+			DrawText("v0.2", auxPosX, auxPosY, auxFont, WHITE);
 			DrawMainMenu(gameStats, buttons);
 
 			break;
@@ -299,7 +299,7 @@ namespace flappy
 			string creditsText = "Credits";
 			string exitText = "Press ESC at ANY momment to CLOSE the game";
 
-			Color textColor = BLACK;
+			Color textColor = RED;
 
 			DrawButton(buttons.playButton, buttons.playButtState);
 			//DrawButton(buttons.rulesButton, buttons.rulesButtState);
@@ -412,20 +412,20 @@ namespace flappy
 
 			string titleText = "CREDITS";
 
-			string howToMoveText = "-Game made by me Francisco Jonas: https://4franjonas2.itch.io/.";
-			string creditText1 = "-Game assests made by Guadalupe Ferreira Le Roi";
+			string howToMoveText = "-Game made by ????????????????????????????.";
+			string creditText1 = "-Game assests made UNKnown";
 			string creditText2 = "-Special thanks to, Stefano Juan Cvitanich and Sergio Baretto";
 			string exitText = "Back";
 
-			Color textColor = BLACK;
+			Color textColor = RED;
 
 			DrawButton(buttons.backButton, buttons.backButtState);
 
 			DrawText("CREDITS", LineText1PosX, LineText1PosY, titleFontSize, textColor);
 
-			DrawText("-Game made by me Francisco Jonas: https://4franjonas2.itch.io/.",
+			DrawText("-Game made by ????????????????????????????.",
 				LineText2PosX, LineText2PosY, defaultFontSize, textColor);
-			DrawText("-Game assests made by Guadalupe Ferreira Le Roi",
+			DrawText("-Game assests made UNKnown",
 				LineText3PosX, LineText3PosY, defaultFontSize, textColor);
 			DrawText("-Special thanks to, Stefano Juan Cvitanich and Sergio Baretto",
 				LineText4PosX, LineText4PosY, defaultFontSize, textColor);
@@ -468,7 +468,7 @@ namespace flappy
 			string menuText = "Go MENU";
 			string endText = "GAME OVER";
 
-			Color textColor = BLACK;
+			Color textColor = RED;
 
 			DrawText("Press SPACEBAR key", LineText2PosX, LineText2PosY, defaultFontSize, textColor);
 
@@ -544,9 +544,9 @@ namespace flappy
 
 		if (state == 1)
 		{
-			DrawRectangleRec(button, LIGHTGRAY);
+			DrawRectanglePro(button, { button.width / 2,button.height / 2 }, 0.0f, GRAY);
 		}
 		else
-			DrawRectangleRec(button, WHITE);
+			DrawRectanglePro(button, { button.width/2,button.height/2 }, 0.0f, LIGHTGRAY);
 	}
 }
