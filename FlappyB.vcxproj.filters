@@ -30,7 +30,7 @@
     <ClCompile Include="src\entities\menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="background.cpp">
+    <ClCompile Include="src\entities\background.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,7 +50,7 @@
     <ClInclude Include="src\entities\menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="background.h">
+    <ClInclude Include="src\entities\background.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
