@@ -5,6 +5,7 @@
 #include "entities/player.h"
 #include "entities/enemy.h"
 #include "entities/menu.h"
+#include "entities/background.h"
 
 using namespace std;
 
@@ -30,6 +31,7 @@ namespace flappy
 			Draw();
 		}
 
+		UnloadBackGorund();
 		CloseWindow();
 	}
 
@@ -39,6 +41,8 @@ namespace flappy
 		const int screenHeight = 768;
 
 		InitWindow(screenWidth, screenHeight, "Aracnoids");
+
+		InitBackGorund();
 
 		InitPlayer(player);
 		InitEnemy();
@@ -94,10 +98,12 @@ namespace flappy
 			break;
 		case SceneStatus::GAMEPLAY:
 
+			UpdateBackGorund();
 			UpdatePlayer(player);
 			UpdateEnemy();
 			UpdateSceneMenus(gameStats, buttons);
 			CheckPlayerColision(player.playerHitbox, player.playerGotHit);
+
 			if (player.playerGotHit)
 			{
 				gameStats.gameStatus = SceneStatus::RESETGAME;
@@ -144,17 +150,22 @@ namespace flappy
 
 			break;
 		case SceneStatus::FIRSTGAME:
+			DrawBackGround();
+
 			DrawPlayer(player);
 			DrawMenuTypeScene(gameStats, buttons);
 
 			break;
 		case SceneStatus::GAMEPLAY:
 
+			DrawBackGround();
 			DrawPlayer(player);
 			DrawEnemy();
 
 			break;
 		case SceneStatus::GAMEPAUSE:
+			DrawBackGround();
+
 			DrawPlayer(player);
 			DrawEnemy();
 			DrawMenuTypeScene(gameStats, buttons);
@@ -165,6 +176,8 @@ namespace flappy
 					static_cast <int> (player.playerFigure.y - player.playerFigure.height/2), auxFont, WHITE);*/
 			break;
 		case SceneStatus::GAMEEND:
+			DrawBackGround();
+
 			DrawPlayer(player);
 			DrawEnemy();
 			DrawMenuTypeScene(gameStats, buttons);
