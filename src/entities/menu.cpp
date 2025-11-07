@@ -229,7 +229,7 @@ namespace flappy
 		{
 		case SceneStatus::GAMEMENU:
 
-			DrawText("v0.2", auxPosX, auxPosY, auxFont, WHITE);
+			DrawText("v0.3", auxPosX, auxPosY, auxFont, WHITE);
 			DrawMainMenu(gameStats, buttons);
 
 			break;
@@ -293,12 +293,6 @@ namespace flappy
 			int defaultFontSize = 20;
 			int exitFontSize = 15;
 
-			string titleText = "FLAPPY";
-			string playText = "Play";
-			//string rulesext = "Rules";
-			string creditsText = "Credits";
-			string exitText = "Press ESC at ANY momment to CLOSE the game";
-
 			Color textColor = RED;
 
 			DrawButton(buttons.playButton, buttons.playButtState);
@@ -351,17 +345,6 @@ namespace flappy
 			int LineText0PosX = 75;
 			int LineText0PosY = 705;
 
-			string titleText = "RULES";
-			string howToMoveText = "-To MOVE use RIGHT Mouse Button and to SHOT use LEFT mouse buton";
-			string winConditionText = "-In normal mode Destroy all Neufars to win.";
-			string winConditionText2 = "-In endless mode survive as long as you can.";
-			string loseConditionText2 = "-You will have 3 lives. If you get touch by a neufar, you lose 1 life.";
-			string turtleText = "Take care of the TURTLE, they can change neufar direction !!";
-			string frogText = "FROGS loves water but we cant explain why their smell slows you down if they touch you.";
-			string petalsText = "The PINK PETALS can reestore 1 life, if you are not full healt.";
-			string pauseText = "-Use spacebar to pause game at any moment.";
-			string exitText = "Back";
-
 			Color textColor = BLACK;
 
 			DrawButton(buttons.backButton, buttons.backButtState);
@@ -410,20 +393,13 @@ namespace flappy
 			int LineText0PosX = 75;
 			int LineText0PosY = 705;
 
-			string titleText = "CREDITS";
-
-			string howToMoveText = "-Game made by ????????????????????????????.";
-			string creditText1 = "-Game assests made UNKnown";
-			string creditText2 = "-Special thanks to, Stefano Juan Cvitanich and Sergio Baretto";
-			string exitText = "Back";
-
 			Color textColor = RED;
 
 			DrawButton(buttons.backButton, buttons.backButtState);
 
 			DrawText("CREDITS", LineText1PosX, LineText1PosY, titleFontSize, textColor);
 
-			DrawText("-Game made by ????????????????????????????.",
+			DrawText("-Game made by Francisco Jonas.",
 				LineText2PosX, LineText2PosY, defaultFontSize, textColor);
 			DrawText("-Game assests made UNKnown",
 				LineText3PosX, LineText3PosY, defaultFontSize, textColor);
