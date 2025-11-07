@@ -1,5 +1,7 @@
 #include "background.h"
  
+//credits https://free-game-assets.itch.io/free-ancient-temple-pixel-game-backgrounds
+
 namespace flappy
 {
 	BackGround gameBackGround;
@@ -20,11 +22,11 @@ namespace flappy
 	}
 	void UpdateBackGorund()
 	{
-		gameBackGround.scrollPart1 -= 0.02f;
-		gameBackGround.scrollPart2 -= 0.05f;
-		gameBackGround.scrollPart3 -= 0.4f;
-		gameBackGround.scrollPart4 -= 0.2f;
-		gameBackGround.scrollPart5 -= 0.1f;
+		gameBackGround.scrollPart1 -= 160.0f * GetFrameTime();
+		gameBackGround.scrollPart2 -= 150.0f * GetFrameTime();
+		gameBackGround.scrollPart3 -= 130.0f * GetFrameTime();
+		gameBackGround.scrollPart4 -= 110.0f * GetFrameTime();
+		gameBackGround.scrollPart5 -= 90.0f * GetFrameTime();
 
 		if (gameBackGround.scrollPart1 <= -gameBackGround.part1.width * 2)
 			gameBackGround.scrollPart1 = 0;
@@ -45,10 +47,20 @@ namespace flappy
 	{
 		Color backColor = WHITE;
 
-		DrawTextureEx(gameBackGround.part1, { gameBackGround.scrollPart1 ,54.0f }, 0.0f, 2.0f, backColor);
-		DrawTextureEx(gameBackGround.part1, { gameBackGround.part1.width*2 + gameBackGround.scrollPart1 ,54.0f }, 0.0f, 2.0f, backColor);
+		DrawTextureEx(gameBackGround.part5, { gameBackGround.scrollPart5 ,0.0f }, 0.0f, 3.0f, backColor);
+		DrawTextureEx(gameBackGround.part5, { gameBackGround.part5.width*2 + gameBackGround.scrollPart5 ,0.0f }, 0.0f, 3.0f, backColor);
+
+		DrawTextureEx(gameBackGround.part4, { gameBackGround.scrollPart4 ,0.0f }, 0.0f, 3.0f, backColor);
+		DrawTextureEx(gameBackGround.part4, { gameBackGround.part4.width*2 + gameBackGround.scrollPart4 ,0.0f }, 0.0f, 3.0f, backColor);
+
+		DrawTextureEx(gameBackGround.part3, { gameBackGround.scrollPart3 ,120.0f }, 0.0f, 2.0f, backColor);
+		DrawTextureEx(gameBackGround.part3, { gameBackGround.part3.width*2 + gameBackGround.scrollPart3 ,120.0f }, 0.0f, 2.0f, backColor);
+
 		DrawTextureEx(gameBackGround.part2, { gameBackGround.scrollPart2 ,120.0f }, 0.0f, 2.0f, backColor);
 		DrawTextureEx(gameBackGround.part2, { gameBackGround.part2.width*2 + gameBackGround.scrollPart2 ,120.0f }, 0.0f, 2.0f, backColor);
+
+		DrawTextureEx(gameBackGround.part1, { gameBackGround.scrollPart1 ,54.0f }, 0.0f, 2.0f, backColor);
+		DrawTextureEx(gameBackGround.part1, { gameBackGround.part1.width*2 + gameBackGround.scrollPart1 ,54.0f }, 0.0f, 2.0f, backColor);
 	}
 	void UnloadBackGorund()
 	{
